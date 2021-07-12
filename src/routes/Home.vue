@@ -1,7 +1,14 @@
 <template>
-  <div>
-    <div class="btn btn-primary">
-      home
-    </div>
-  </div>
+  <Headline />
 </template>
+
+<script>
+import Headline from '@/components/Headline'
+
+export default {
+  components: {
+    Headline
+  }
+}
+</script>
+
