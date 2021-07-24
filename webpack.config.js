@@ -61,7 +61,8 @@ module.exports = {
   // 번들링 후 결과물의 처리 방식 등 다양한 플러그인들을 설정
   plugins: [
     new HtmlPlugin({
-      template: './index.html'
+      template: './index.html',
+      favicon: './static/favicon.ico'
     }),
     new CopyPlugin({
       patterns: [
@@ -74,7 +75,7 @@ module.exports = {
   // 개발 서버 옵션
   devServer: {
     host: 'localhost',
-    port: 8080,
+    port: 3333,
     hot: true
   }
 }
