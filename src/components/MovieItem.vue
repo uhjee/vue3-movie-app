@@ -1,5 +1,16 @@
 <template>
-  <div>{{ movie.imdbID }}</div>
+  <div
+    class="movie"
+    :style="{ backgroundImage: `url(${movie.Poster})` }">
+    <div class="info">
+      <div class="year">
+        {{ movie.Year }}
+      </div>
+      <div class="title">
+        {{ movie.Title }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -13,4 +24,52 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import '@/scss/main';
+
+.movie {
+  $width: 200px;
+  width: $width;
+  height: $width * 3/2;
+  margin: 10px;
+  border-radius: 4px;
+  background-color: $gray-400;
+  background-size: cover; // 배경이미지를 넓은 수치에 맞춰 세팅
+  overflow: hidden;
+  position: relative;
+
+// hover 노란 테두리
+  &:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 6px solid $primary;
+  }
+
+  .info {
+    background-color: rgba($black, 0.3);
+    width: 100%;
+    padding: 14px;
+    font-size: 0.9rem;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    backdrop-filter: blur(10px);
+
+    .year{
+      color:$primary;
+    }
+    .title  {
+      color: $white;
+      // 말줄임표 효과(ellipsis)
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+</style>

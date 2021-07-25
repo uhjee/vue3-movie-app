@@ -6,6 +6,8 @@ export default {
   namespaced: true, // store/index.js 에 명시해 module로써 활용 가능
   state: () => ({
     movies: [],
+    message: '',
+    loading: false,
   }), // 취급해야하는 데이터
   getters: {
     movieIds(state) {
@@ -35,42 +37,74 @@ export default {
   actions: {
     // searchMovies(context) { // context - { state, getters, commit}
     async searchMovies({ commit, state }, payload) {
-      // API 권한 관련 parameters
-      payload.i = Keys.OMDB_ID;
-      payload.apikey = Keys.OMDB_API_KEY;
-
-      const res = await axios.get(`https://www.omdbapi.com/`, {
-        params: payload,
-      });
-
-      if (res.data.Response) {
-        const { Search, totalResults } = res.data;
-        console.log(res);
-        commit('updateState', {
-          movies: _uniqBy(Search, 'imdbID'),
+      try {
+        const res = await _fetchMovie({
+          ...payload,
+          page: 1,
         });
-        const total = parseInt(totalResults, 10);
-        const pageLength = Math.ceil(total / 10);
 
-        // 추가 요청
-        if (pageLength > 1) {
-          for (let page = 2; page <= pageLength; page += 1) {
-            // number 보다 큰 페이지수는 요청을 보내지 않도록
-            if (page > payload.number / 10) break;
+        if (res.data.Response) {
+          const { Search, totalResults } = res.data;
+          console.log(res);
+          commit('updateState', {
+            movies: _uniqBy(Search, 'imdbID'),
+          });
+          const total = parseInt(totalResults, 10); // api 응답이 String으로 오기 때문에 형변환
+          const pageLength = Math.ceil(total / 10);
 
-            const res = await axios.get(`https://www.omdbapi.com/`, {
-              params: {
+          // 추가 요청
+          if (pageLength > 1) {
+            for (let page = 2; page <= pageLength; page += 1) {
+              // number 보다 큰 페이지수는 요청을 보내지 않도록
+              if (page > payload.number / 10) break;
+
+              const res = await _fetchMovie({
                 ...payload,
                 page, // for 문의 page로 요청
-              },
-            });
-            const { Search } = res.data;
-            commit('updateState', {
-              movies: [...state.movies, ..._uniqBy(Search, 'imdbID')],
-            });
+              });
+              const { Search } = res.data;
+              commit('updateState', {
+                movies: [...state.movies, ..._uniqBy(Search, 'imdbID')],
+              });
+            }
           }
         }
+      } catch (message) {
+        commit('updateState', {
+          movies: [],
+          message,
+        });
       }
     },
   },
+};
+
+/**
+ * 실제 api를 호출하는 메소드
+ *
+ * @var {[type]}
+ */
+const _fetchMovie = payload => {
+  // API 권한 관련 parameters
+  if (payload !== undefined && payload !== {}) {
+    payload.i = Keys.OMDB_ID;
+    payload.apikey = Keys.OMDB_API_KEY;
+  }
+
+  const url = 'https://www.omdbapi.com/';
+
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url, { params: payload })
+      .then(res => {
+        if (res.data.Error) {
+          reject(res.data.Error);
+          return;
+        }
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err.message);
+      });
+  });
 };
