@@ -6,7 +6,7 @@ export default {
   namespaced: true, // store/index.js 에 명시해 module로써 활용 가능
   state: () => ({
     movies: [],
-    message: '',
+    message: 'Search for the movie title!',
     loading: false,
   }), // 취급해야하는 데이터
   getters: {
@@ -37,6 +37,15 @@ export default {
   actions: {
     // searchMovies(context) { // context - { state, getters, commit}
     async searchMovies({ commit, state }, payload) {
+      //  중복 호출 방지
+      if (state.loading) return;
+
+      //message 초기화
+      commit('updateState', {
+        message: '',
+        loading: 'true',
+      });
+
       try {
         const res = await _fetchMovie({
           ...payload,
@@ -45,7 +54,6 @@ export default {
 
         if (res.data.Response) {
           const { Search, totalResults } = res.data;
-          console.log(res);
           commit('updateState', {
             movies: _uniqBy(Search, 'imdbID'),
           });
@@ -73,6 +81,10 @@ export default {
         commit('updateState', {
           movies: [],
           message,
+        });
+      } finally {
+        commit('updateState', {
+          loading: false,
         });
       }
     },

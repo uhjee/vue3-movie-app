@@ -18,7 +18,7 @@ export default {};
   font-size: 20px;
   color: $gray-900;
   text-decoration: none;
-  transition: scale, 0.3s;
+  transition: scale, 0.2s;
   &:hover {
     color: $black;
     transform: scale(1.2);
