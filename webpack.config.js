@@ -10,7 +10,7 @@ module.exports = {
     extensions: ['.js', '.vue'],
     // 경로 별칭 설정
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, 'src'), // src root
       'assets': path.resolve(__dirname, 'src/assets')
     }
   },
