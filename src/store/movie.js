@@ -8,6 +8,7 @@ export default {
     movies: [],
     message: 'Search for the movie title!',
     loading: false,
+    theMovie: {},
   }), // 취급해야하는 데이터
   getters: {
     movieIds(state) {
@@ -88,6 +89,30 @@ export default {
         });
       }
     },
+    // context 구조분해 할당 -> state, commit prop
+    async searchMovieWithId({ state, commit }, payload) {
+      if (state.loading) return;
+
+      commit('updateState', {
+        theMovie: {}, // 기존 데이터 초기화
+        loading: true,
+      });
+      
+      try {
+        const res = await _fetchMovie(payload);
+        commit('updateState', {
+          theMovie: res.data,
+        });
+      } catch (error) {
+        commit('updateState', {
+          theMovie: {},
+        });
+      } finally {
+        commit('updateState', {
+          loading: false,
+        });
+      }
+    },
   },
 };
 
@@ -98,9 +123,12 @@ export default {
  */
 const _fetchMovie = payload => {
   // API 권한 관련 parameters
-  if (payload !== undefined && payload !== {}) {
-    payload.i = Keys.OMDB_ID;
+  if (payload !== undefined && payload !== null) {
     payload.apikey = Keys.OMDB_API_KEY;
+    // id 여부로 개별 검색 or 다수 검색 분기 처리
+    // if (payload.id) {
+    //   payload.i = Keys.OMDB_ID;
+    // }
   }
 
   const url = 'https://www.omdbapi.com/';

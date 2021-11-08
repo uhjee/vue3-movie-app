@@ -13,12 +13,13 @@ export default createRouter({
       component: Home,
     },
     {
-      path: '/about',
-      component: About,
+      // 동적 route 세팅 ($route.params 로 접근 가능)
+      path: '/movie/:id',
+      component: Movie,
     },
     {
-      path: '/movie',
-      component: Movie,
+      path: '/about',
+      component: About,
     },
   ],
 });
