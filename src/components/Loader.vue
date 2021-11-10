@@ -10,20 +10,28 @@
 </template>
 
 <script>
+
+/**
+ * Loading spinner component
+ */
 export default {
   props: {
+    // spinner size
     size: {
       type: Number,
       default: 2,
     },
+    // spinner position attribute : absolute
     absolute: {
       type: Boolean,
       default: false,
     },
+    // spinner position attribute : fixed
     fixed: {
       type: Boolean,
       default: false,
     },
+    // spinner : z-index
     zIndex: {
       type: Number,
       default: 0,
