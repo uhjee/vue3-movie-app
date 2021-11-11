@@ -46,7 +46,7 @@
               :title="name"
               class="rating">
               <img
-                :src="`https://raw.githubusercontent.com/ParkYoungWoong/vue3-movie-app/master/src/assets/${name}.png`"
+                :src="getImageUrl(name)"
                 :alt="name" />
               <span>{{ score }}</span>
             </div>
@@ -93,6 +93,19 @@ export default {
       // e.g. movie/tt123762
       i: this.$route.params.id,
     });
+  },
+  methods: {
+    getImageUrl(ratingCompanyName) {
+      const nonBlankName = this.removeBlank(ratingCompanyName);
+      if (nonBlankName === null)
+        return 'https://via.placeholder.com/150x225?text=uhjee';
+      return `https://raw.githubusercontent.com/uhjee/vue3-movie-app/master/src/assets/${nonBlankName}.png`;
+    },
+    removeBlank(value) {
+      if (value === null || value === undefined || typeof value !== 'string')
+        return null;
+      return value.replaceAll(' ', '');
+    },
   },
 };
 </script>
