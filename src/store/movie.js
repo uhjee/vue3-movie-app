@@ -89,7 +89,6 @@ export default {
         });
       }
     },
-    // context 구조분해 할당 -> state, commit prop
     async searchMovieWithId({ state, commit }, payload) {
       if (state.loading) return;
 
@@ -97,7 +96,7 @@ export default {
         theMovie: {}, // 기존 데이터 초기화
         loading: true,
       });
-      
+
       try {
         const res = await _fetchMovie(payload);
         commit('updateState', {

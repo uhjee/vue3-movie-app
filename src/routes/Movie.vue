@@ -23,7 +23,9 @@
       v-else
       class="movie-details">
       <div
-        :style="{ backgroundImage: `url(${theMovie.Poster})` }"
+        :style="{
+          backgroundImage: `url(${requestDiffSizeImage(theMovie.Poster)})`,
+        }"
         class="poster"></div>
       <div class="specs">
         <div class="title">
@@ -95,16 +97,34 @@ export default {
     });
   },
   methods: {
+    /**
+     * 평점 기관에 따른 이미지 url을 반환한다.
+     *
+     * @param   {string}  ratingCompanyName  [ratingCompanyName description]
+     * @return  {string}                     [return description]
+     */
     getImageUrl(ratingCompanyName) {
       const nonBlankName = this.removeBlank(ratingCompanyName);
       if (nonBlankName === null)
         return 'https://via.placeholder.com/150x225?text=uhjee';
       return `https://raw.githubusercontent.com/uhjee/vue3-movie-app/master/src/assets/${nonBlankName}.png`;
     },
+    /**
+     * string 파라미터의 공백문자를 제거한다.
+     *
+     * @param   {string}  value  [value description]
+     * @return  {string}         [return description]
+     */
     removeBlank(value) {
       if (value === null || value === undefined || typeof value !== 'string')
         return null;
       return value.replaceAll(' ', '');
+    },
+    /**
+     * url의 이미지 담당 string을 대체해 반환한다.
+     */
+    requestDiffSizeImage(url, size = 700) {
+      return url.replace('SX300', `SX${size}`);
     },
   },
 };
