@@ -2,6 +2,10 @@
   <div
     class="movie"
     :style="{ backgroundImage: `url(${movie.Poster})` }">
+    <Loader
+      v-if="imageLoading"
+      :size="1.5"
+      absolute />
     <div class="info">
       <div class="year">
         {{ movie.Year }}
@@ -14,11 +18,34 @@
 </template>
 
 <script>
+import Loader from '@/components/Loader';
+
 export default {
+  components: {
+    Loader,
+  },
   props: {
     movie: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      imageLoading: true,
+    };
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    /**
+     * movieItem 초기화 메소드
+     */
+    async init() {
+      // 비동기 plugin
+      await this.$loadImage(this.movie.Poster);
+      this.imageLoading = false;
     },
   },
 };
@@ -38,9 +65,9 @@ export default {
   overflow: hidden;
   position: relative;
 
-// hover 노란 테두리
+  // hover 노란 테두리
   &:hover::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -60,10 +87,10 @@ export default {
     bottom: 0;
     backdrop-filter: blur(10px);
 
-    .year{
-      color:$primary;
+    .year {
+      color: $primary;
     }
-    .title  {
+    .title {
       color: $white;
       // 말줄임표 효과(ellipsis)
       white-space: nowrap;
