@@ -43,9 +43,15 @@ export default {
      * movieItem 초기화 메소드
      */
     async init() {
-      // 비동기 plugin
-      await this.$loadImage(this.movie.Poster);
-      this.imageLoading = false;
+      const poster = this.movie.Poster;
+      // poster 예외처리
+      if (!poster || poster === 'N/A') {
+        this.imageLoading = false;
+      } else {
+        // 비동기 plugin
+        await this.$loadImage(poster);
+        this.imageLoading = false;
+      }
     },
   },
 };
