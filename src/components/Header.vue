@@ -8,8 +8,9 @@
         class="nav-item">
         <router-link
           :to="nav.href"
-          active-class="active"
-          class="nav-link">
+          class="nav-link"
+          :class="{ active: isMatch(nav.path) }"
+          active-class="active">
           {{ nav.name }}
         </router-link>
       </div>
@@ -33,7 +34,9 @@ export default {
         },
         {
           name: 'Movie',
+          // default movie :: dune
           href: '/Movie/tt1160419',
+          path: /^\/movie/, // '/movie' 로 시작하는 경로
         },
         {
           name: 'About',
@@ -42,17 +45,28 @@ export default {
       ],
     };
   },
+  methods: {
+    /**
+     * 현재 라우트의 path가 path 정규식에 부합하는지 여부를 반환한다.
+     * @param   {Regex | null}  path  [path description]
+     * @return  {boolean}        [return description]
+     */
+    isMatch(path) {
+      if (!path) return false;
+      return path.test(this.$route.fullPath); // fullPath : 현재 이동하는 url 경로
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-  header {
-    height: 70px;
-    padding: 0 40px;
-    display: flex;
-    align-items: center;
-    .logo{
-      margin-right: 40px
-    }
+header {
+  height: 70px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  .logo {
+    margin-right: 40px;
   }
+}
 </style>
