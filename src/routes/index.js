@@ -1,7 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from './Home';
 import About from './About';
-import Movie from './Movie.vue';
+import Movie from './Movie';
+import NotFound from './NotFound';
 
 export default createRouter({
   // hash mode, history mode 둘 중 선택
@@ -20,6 +21,10 @@ export default createRouter({
     {
       path: '/about',
       component: About,
+    },
+    {
+      path: '/:notFound(.*)', // 소괄호 사이에 정규 표현식으로 notFound로 라우팅할 path 입력
+      component: NotFound,
     },
   ],
 });
