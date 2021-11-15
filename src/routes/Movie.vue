@@ -209,6 +209,7 @@ export default {
     // ! background-image (width | height) 큰 값에 맞춰 채우기
     background-size: cover;
     background-position: center;
+    position: relative;
   }
   .specs {
     // 화면 크기에 따라 늘어나도록 증가 비율

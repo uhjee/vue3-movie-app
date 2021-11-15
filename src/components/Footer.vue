@@ -5,7 +5,7 @@
       href="https://github.com/ParkYoungWoong"
       target="_blank"
       class="copyright">
-      (c) {{ new Date().getFullYear() }} UHJEE
+      (c) {{ new Date().getFullYear() }} uhjee
     </a>
   </footer>
 </template>
