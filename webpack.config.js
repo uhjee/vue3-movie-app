@@ -41,7 +41,13 @@ module.exports = {
           'style-loader',
           'css-loader',
           'postcss-loader',
-          'sass-loader'
+          {
+            loader: 'sass-loader',
+            options: {
+              // 모든 scss,css 파일에 공통으로 사용할 수 있도록 전역 처리
+              additionalData: '@import "@/scss/main";'
+            }
+          }
         ]
       },
       {
