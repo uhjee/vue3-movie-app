@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Logo from '@/components/Logo';
 
 export default {
@@ -53,22 +55,24 @@ export default {
     };
   },
   computed: {
-    /**
-     * 이미지 경로를 반환한다.
-     *
-     * @return  {[type]}  [return description]
-     */
-    image() {
-      return this.$store.state.about.image;
-    },
-    /**
-     * 사용자 이름을 반환한다.
-     *
-     * @return  {[type]}  [return description]
-     */
-    name() {
-      return this.$store.state.about.name;
-    },
+    // vuex helper 함수
+    ...mapState('about', ['image', 'name']),
+    // /**
+    //  * 이미지 경로를 반환한다.
+    //  *
+    //  * @return  {[type]}  [return description]
+    //  */
+    // image() {
+    //   return this.$store.state.about.image;
+    // },
+    // /**
+    //  * 사용자 이름을 반환한다.
+    //  *
+    //  * @return  {[type]}  [return description]
+    //  */
+    // name() {
+    //   return this.$store.state.about.name;
+    // },
   },
   methods: {
     /**
@@ -122,7 +126,7 @@ header {
       border-radius: 50%;
     }
   }
-  // 부트스트랩의 max-width 개념 
+  // 부트스트랩의 max-width 개념
   @include media-breakpoint-down(sm) {
     .nav {
       display: none;

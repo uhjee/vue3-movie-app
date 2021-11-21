@@ -80,6 +80,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Loader from '@/components/Loader';
 
 export default {
@@ -92,20 +94,33 @@ export default {
     };
   },
   computed: {
-    loading() {
-      return this.$store.state.movie.loading;
-    },
-    theMovie() {
-      return this.$store.state.movie.theMovie;
-    },
+    // vuex helper 함수
+
+    ...mapState('movie', ['loading', 'theMovie']),
+    // loading() {
+    //   return this.$store.state.movie.loading;
+    // },
+    // theMovie() {
+    //   return this.$store.state.movie.theMovie;
+    // },
   },
   created() {
+    // mapActions를 사용해 아래와 같은 코드  효과(methods에서 현 컴포넌트로 가져와 선언)
     this.$store.dispatch('movie/searchMovieWithId', {
       // e.g. movie/tt123762
       i: this.$route.params.id,
     });
+    // this.searchMovieWithId();
   },
   methods: {
+    // mapActions 사용 - 아래 동명의 메소드와 같은 효과
+    // ...mapActions('movie', ['searchMovieWithId']),
+    // searchMovieWithId() {
+    //   this.$store.dispatch('movie/searchMovieWithId', {
+    //     // e.g. movie/tt123762
+    //     i: this.$route.params.id,
+    //   });
+    // },
     /**
      * 평점 기관에 따른 이미지 url을 반환한다.
      *
