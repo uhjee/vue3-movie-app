@@ -2,11 +2,13 @@ import axios from 'axios';
 import Keys from '@/../keys.json';
 import _uniqBy from 'lodash/uniqBy';
 
+const _defaultMessage = 'Search for the movie title!';
+
 export default {
   namespaced: true, // store/index.js 에 명시해 module로써 활용 가능
   state: () => ({
     movies: [],
-    message: 'Search for the movie title!',
+    message: _defaultMessage,
     loading: false,
     theMovie: {},
   }), // 취급해야하는 데이터
@@ -20,6 +22,8 @@ export default {
   mutations: {
     resetMovies(state) {
       state.movies = [];
+      state.message = _defaultMessage;
+      state.loading = false;
     },
     /**
      * 모든 state를 변이할 수 있는 공통 메소드

@@ -7,6 +7,12 @@ import NotFound from './NotFound';
 export default createRouter({
   // hash mode, history mode 둘 중 선택
   history: createWebHashHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    return {
+      // 라우팅 시, 스크롤 최상단 이동
+      top: 0,
+    };
+  },
   // pages
   routes: [
     {
