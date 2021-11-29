@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Keys from '@/../keys.json';
+// import Keys from '@/../keys.json';
 import _uniqBy from 'lodash/uniqBy';
 
 const _defaultMessage = 'Search for the movie title!';
