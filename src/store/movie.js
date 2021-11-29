@@ -127,7 +127,8 @@ export default {
 const _fetchMovie = payload => {
   // API 권한 관련 parameters
   if (payload !== undefined && payload !== null) {
-    payload.apikey = Keys.OMDB_API_KEY;
+    // ! payload.apikey = Keys.OMDB_API_KEY;
+    payload.apikey = '21b591';
     // id 여부로 개별 검색 or 다수 검색 분기 처리
     // if (payload.id) {
     //   payload.i = Keys.OMDB_ID;
