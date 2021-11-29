@@ -82,7 +82,7 @@ export default {
             }
           }
         }
-      } catch (message) {
+      } catch ({ message }) {
         commit('updateState', {
           movies: [],
           message,
@@ -124,31 +124,34 @@ export default {
  *
  * @var {[type]}
  */
-const _fetchMovie = payload => {
-  // API 권한 관련 parameters
-  if (payload !== undefined && payload !== null) {
-    // ! payload.apikey = Keys.OMDB_API_KEY;
-    payload.apikey = '21b591';
-    // id 여부로 개별 검색 or 다수 검색 분기 처리
-    // if (payload.id) {
-    //   payload.i = Keys.OMDB_ID;
-    // }
-  }
+const _fetchMovie = async payload => {
+  // // API 권한 관련 parameters
+  // if (payload !== undefined && payload !== null) {
+  //   // ! payload.apikey = Keys.OMDB_API_KEY;
+  //   payload.apikey = '21b591';
+  //   // id 여부로 개별 검색 or 다수 검색 분기 처리
+  //   // if (payload.id) {
+  //   //   payload.i = Keys.OMDB_ID;
+  //   // }
+  // }
 
-  const url = 'https://www.omdbapi.com/';
+  // const url = 'https://www.omdbapi.com/';
 
-  return new Promise((resolve, reject) => {
-    axios
-      .get(url, { params: payload })
-      .then(res => {
-        if (res.data.Error) {
-          reject(res.data.Error);
-          return;
-        }
-        resolve(res);
-      })
-      .catch(err => {
-        reject(err.message);
-      });
-  });
+  // return new Promise((resolve, reject) => {
+  //   axios
+  //     .get(url, { params: payload })
+  //     .then(res => {
+  //       if (res.data.Error) {
+  //         reject(res.data.Error);
+  //         return;
+  //       }
+  //       resolve(res);
+  //     })
+  //     .catch(err => {
+  //       reject(err.message);
+  //     });
+  // });
+
+  // ! netlify serverless function
+  return await axios.post(`/.netlify/functions/movie`, payload);
 };
