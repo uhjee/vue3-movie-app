@@ -1,20 +1,25 @@
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const axios = require('axios');
+const { OMDB_API_KEY } = process.env;
 
+/**
+ * netlify serverless function 을 사용해 api 호출 부분 마이그레이션
+ * proxy 역할과 유사
+ *
+ * @param event 현 함수로 api 요청을 보내는 요청에 대한 객체(http header, body 등)
+ */
 const handler = async event => {
   const payload = JSON.parse(event.body);
-  console.log({ event });
+  // console.log({ event });
 
   try {
-    // ! payload.apikey = Keys.OMDB_API_KEY;
-    payload.apikey = '21b591';
-    // id 여부로 개별 검색 or 다수 검색 분기 처리
-    // if (payload.id) {
-    //   payload.i = Keys.OMDB_ID;
-    // }
-    // }
     const url = 'https://www.omdbapi.com/';
-    const { data } = await axios.get(url, { params: payload });
+    const { data } = await axios.get(url, {
+      params: {
+        ...payload,
+        apikey: OMDB_API_KEY,
+      },
+    });
 
     if (data.Error) {
       return {

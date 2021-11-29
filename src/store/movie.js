@@ -152,6 +152,6 @@ const _fetchMovie = async payload => {
   //     });
   // });
 
-  // ! netlify serverless function
+  // ! netlify serverless function 호출
   return await axios.post(`/.netlify/functions/movie`, payload);
 };
