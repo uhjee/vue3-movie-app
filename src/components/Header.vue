@@ -81,10 +81,12 @@ export default {
      * @return  {boolean}        [return description]
      */
     isMatch(path) {
+      // !$route 객체 :: route에 대한 정보를 담고 있는 객체
       if (!path) return false;
       return path.test(this.$route.fullPath); // fullPath : 현재 이동하는 url 경로
     },
     toAbout() {
+      // !$router 객체 :: route 조작을 위한 객체
       // RouterLink 컴포넌트 없이 $router 객체 사용해 라우팅 이동
       this.$router.push('/about');
     },
