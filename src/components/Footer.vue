@@ -2,7 +2,7 @@
   <footer>
     <Logo />
     <a
-      href="https://github.com/ParkYoungWoong"
+      href="https://github.com/uhjee"
       target="_blank"
       class="copyright">
       (c) {{ new Date().getFullYear() }} uhjee
