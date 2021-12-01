@@ -26,7 +26,7 @@ module.exports = {
   // 참고: https://github.com/facebook/jest/issues/6766
   testURL: 'http://localhost/',
 
-  // 정규식과 일치하는 파일의 변환 모듈을 지정합니다.
+  // 정규식과 일치하는 파일의 변환 모듈을 지정합니다.(npm 을 통해 설치)
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '^.+\\.js$': 'babel-jest'
