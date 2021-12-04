@@ -1,6 +1,8 @@
 // ! 01. test 연습
 
 import { double, asyncFn } from './example';
+import * as ex from './example';
+import axios from 'axios';
 
 // // describe :: 일종의 테스트 들의 그룹
 // describe('그룹 1', () => {
@@ -35,7 +37,7 @@ import { double, asyncFn } from './example';
 //   });
 // });
 
-// // ! 02. matcher 연습
+// ! 02. matcher 연습
 // const userA = {
 //   name: 'uhjee',
 //   age: 85,
@@ -58,30 +60,55 @@ import { double, asyncFn } from './example';
 // });
 
 // ! 03. 비동기 함수 테스트
+// describe('비동기 테스트', () => {
+//   // ! 03-1. 방법 :: test() 콜백함수의 매개변수 done
+//   test('done', done => {
+//     // 매개변수 - done :: 비동기 실행 완료까지 기다리게 해주는 함수
+//     asyncFn().then(res => {
+//       expect(res).toBe('done'); // 모두 정상이라고 출력됨(비동기를 기다리지 않고 결과 출력하기 때문에) -> 문제 있음
+//       done(); // 이때까지 기다린다
+//     });
+//   });
+
+//   // ! 03-2. 방법 :: 비동기 객체(Promise) 반환하기
+//   test('then', () => {
+//     // return 값으로 Promise 객체 (return 키워드 사용)
+//     return asyncFn().then(res => {
+//       expect(res).toBe('done!');
+//     });
+//   });
+
+//   // ! 03-3. 방법 :: 브릿지 resolves 사용
+//   test('resolves', () => expect(asyncFn()).resolves.toBe('done?'));
+
+//   // ! 03-4. 방법 :: async/await 사용
+//   test('async/await', async () => {
+//     const res = await asyncFn();
+//     expect(res).toBe('done');
+//   });
+// });
+
+// ! 04. 모의 함수 mock -비동기 함수를 모의 함수로 변환
 describe('비동기 테스트', () => {
-  // ! 03-1. 방법 :: test() 콜백함수의 매개변수 done
-  test('done', done => {
-    // 매개변수 - done :: 비동기 실행 완료까지 기다리게 해주는 함수
-    asyncFn().then(res => {
-      expect(res).toBe('done'); // 모두 정상이라고 출력됨(비동기를 기다리지 않고 결과 출력하기 때문에) -> 문제 있음
-      done(); // 이때까지 기다린다
-    });
-  });
-
-  // ! 03-2. 방법 :: 비동기 객체(Promise) 반환하기
-  test('then', () => {
-    // return 값으로 Promise 객체 (return 키워드 사용)
-    return asyncFn().then(res => {
-      expect(res).toBe('done!');
-    });
-  });
-
-  // ! 03-3. 방법 :: 브릿지 resolves 사용
-  test('resolves', () => expect(asyncFn()).resolves.toBe('done?'));
-  
-  // ! 03-4. 방법 :: async/await 사용
   test('async/await', async () => {
-    const res = await asyncFn();
-    expect(res).toBe('done');
+    // 모의 함수
+    jest.spyOn(ex, 'asyncFn').mockResolvedValue('done?');
+    const res = await ex.asyncFn();
+    expect(res).toBe('done?');
+  });
+
+  test('영화 제목 변환', async () => {
+    // 모의 함수로 할당
+    axios.get = jest.fn(() => {
+      return new Promise(resolve => {
+        resolve({
+          data: {
+            Title: 'Frozen II',
+          },
+        });
+      });
+    });
+    const title = await ex.fetchMovieTitle();
+    expect(title).toBe('Frozen ii');
   });
 });
