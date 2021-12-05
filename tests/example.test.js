@@ -3,6 +3,8 @@
 import { double, asyncFn } from './example';
 import * as ex from './example';
 import axios from 'axios';
+import { mount } from '@vue/test-utils';
+import Example from './Example.vue';
 
 // // describe :: 일종의 테스트 들의 그룹
 // describe('그룹 1', () => {
@@ -89,26 +91,43 @@ import axios from 'axios';
 // });
 
 // ! 04. 모의 함수 mock -비동기 함수를 모의 함수로 변환
-describe('비동기 테스트', () => {
-  test('async/await', async () => {
-    // 모의 함수
-    jest.spyOn(ex, 'asyncFn').mockResolvedValue('done?');
-    const res = await ex.asyncFn();
-    expect(res).toBe('done?');
-  });
+// describe('비동기 테스트', () => {
+//   test('async/await', async () => {
+//     // 모의 함수
+//     jest.spyOn(ex, 'asyncFn').mockResolvedValue('done?');
+//     const res = await ex.asyncFn();
+//     expect(res).toBe('done?');
+//   });
 
-  test('영화 제목 변환', async () => {
-    // 모의 함수로 할당
-    axios.get = jest.fn(() => {
-      return new Promise(resolve => {
-        resolve({
-          data: {
-            Title: 'Frozen II',
-          },
-        });
-      });
-    });
-    const title = await ex.fetchMovieTitle();
-    expect(title).toBe('Frozen ii');
-  });
+//   test('영화 제목 변환', async () => {
+//     // 모의 함수로 할당
+//     axios.get = jest.fn(() => {
+//       return new Promise(resolve => {
+//         resolve({
+//           data: {
+//             Title: 'Frozen II',
+//           },
+//         });
+//       });
+//     });
+//     const title = await ex.fetchMovieTitle();
+//     expect(title).toBe('Frozen ii');
+//   });
+// });
+
+// ! 05. Vue Test Utils
+test('메세지를 변경합니다.', async () => {
+  // Connect to vue component (Example)
+  const wrapper = mount(Example);
+
+  // wrapper.vm === this
+  expect(wrapper.vm.msg).toBe('Hello vue test utils');
+
+  // 해당 vm의 data 세팅 (test용)
+  await wrapper.setData({
+    msg: 'Hello vue test utils?'
+  })
+
+  // 실제 div의 text 속성 값 확인
+  expect(wrapper.find('div').text()).toBe('Hello vue test utils?');
 });
