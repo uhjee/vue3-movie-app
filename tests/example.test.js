@@ -120,7 +120,7 @@ test('메세지를 변경합니다.', async () => {
   // Connect to vue component (Example)
   const wrapper = mount(Example);
 
-  // wrapper.vm === this
+  // wrapper.vm === this (컴포넌트의 인스턴스)
   expect(wrapper.vm.msg).toBe('Hello vue test utils');
 
   // 해당 vm의 data 세팅 (test용)
