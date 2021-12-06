@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 
 describe('components/Header.vue', () => {
   let wrapper;
+  
   beforeEach(async () => {
     // mockup function
     window.scrollTo = jest.fn();
