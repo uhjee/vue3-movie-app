@@ -6,6 +6,8 @@ const _defaultMessage = 'Search for the movie title!';
 
 export default {
   namespaced: true, // store/index.js 에 명시해 module로써 활용 가능
+
+  // 불변성을 위해 함수의 return 값으로 객체 보관 후 리턴
   state: () => ({
     movies: [],
     message: _defaultMessage,
